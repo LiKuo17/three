@@ -29,7 +29,7 @@ scene.add(camera);
 
 //添加物体
 //创建几何体
-
+const geometry = new THREE.BufferGeometry();
 const vertices = new Float32Array([
     -1.0, -1.0, 1.0, 
     1.0, -1.0, 1.0, 
@@ -39,19 +39,10 @@ const vertices = new Float32Array([
     -1.0,-1.0,1.0
 ]);
 
-for(let i = 0 ;i< 50;i++){
-    const geometry = new THREE.BufferGeometry();
-    const positionArray = new Float32Array(9);
-    for (let j =0;j<9;j++){
-        positionArray[j]  = Math.random() * 10 - 5
-    }
-    let color = new THREE.Color(Math.random(),Math.random(),Math.random())
-    geometry.setAttribute('position',new THREE.BufferAttribute(positionArray, 3))
-    const material = new THREE.MeshBasicMaterial({color: color,transparent:true,opacity:0.5})
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
-}
-
+geometry.setAttribute('position',new THREE.BufferAttribute(vertices, 3))
+const material = new THREE.MeshBasicMaterial({color:0xffff00})
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 // //根据几何体和材质创建物体
 // const cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 
