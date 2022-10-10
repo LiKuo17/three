@@ -50270,7 +50270,21 @@ TweenMaxWithCSS = gsapWithCSS.core.Tween;
 
 exports.TweenMax = TweenMaxWithCSS;
 exports.default = exports.gsap = gsapWithCSS;
-},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"main/main.js":[function(require,module,exports) {
+},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"assets/imgs/color.jpg":[function(require,module,exports) {
+module.exports = "/color.948443b5.jpg";
+},{}],"assets/imgs/alpha.jpg":[function(require,module,exports) {
+module.exports = "/alpha.1fcf988e.jpg";
+},{}],"assets/imgs/ambientOcclusion.jpg":[function(require,module,exports) {
+module.exports = "/ambientOcclusion.add2fa97.jpg";
+},{}],"assets/imgs/height.jpg":[function(require,module,exports) {
+module.exports = "/height.4f622c3d.jpg";
+},{}],"assets/imgs/roughness.jpg":[function(require,module,exports) {
+module.exports = "/roughness.87b7fc65.jpg";
+},{}],"assets/imgs/metalness.jpg":[function(require,module,exports) {
+module.exports = "/metalness.c68fdc40.jpg";
+},{}],"assets/imgs/minecraft.png":[function(require,module,exports) {
+module.exports = "/minecraft.59d6cabe.png";
+},{}],"main/main.js":[function(require,module,exports) {
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
@@ -50297,29 +50311,81 @@ var scene = new THREE.Scene(); //创建相机
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); //设置相机位置
 
 camera.position.set(0, 0, 10);
-scene.add(camera); //添加物体
+scene.add(camera); // 导入纹理
+
+var textureLoader = new THREE.TextureLoader();
+var doorColorTexture = textureLoader.load(require("../assets/imgs/color.jpg"));
+var doorAplhaTexture = textureLoader.load(require('../assets/imgs/alpha.jpg'));
+var doorAoTexture = textureLoader.load(require('../assets/imgs/ambientOcclusion.jpg')); //导入置换贴图
+
+var doorHeightTexture = textureLoader.load(require('../assets/imgs/height.jpg')); //导入粗糙度贴图
+
+var roughnessTexture = textureLoader.load(require('../assets/imgs/roughness.jpg')); //导入金属贴图
+
+var metalnessTexture = textureLoader.load(require('../assets/imgs/metalness.jpg'));
+var texture = textureLoader.load(require("../assets/imgs/minecraft.png")); //添加物体
+
+var cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1, 100, 100, 100); //材质
+
+var basicMaterial = new THREE.MeshStandardMaterial({
+  color: "#ffff00",
+  map: doorColorTexture,
+  // map:texture,
+  alphaMap: doorAplhaTexture,
+  transparent: true,
+  aoMap: doorAoTexture,
+  aoMapIntensity: 1,
+  // opacity: 0.6,
+  side: THREE.DoubleSide,
+  displacementMap: doorHeightTexture,
+  displacementScale: 0.1,
+  roughness: 1,
+  roughnessMap: roughnessTexture,
+  metalness: 1,
+  metalnessMap: metalnessTexture
+}); //给plane添加第二组uv
+
+cubeGeometry.setAttribute("uv2", new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2)); //灯光
+
+var light = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(light);
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(0, 10, 10);
+scene.add(directionalLight);
+texture.minFilter = THREE.NearestFilter;
+texture.magFilter = THREE.NearestFilter;
+texture.minFilter = THREE.LinearFilter;
+texture.magFilter = THREE.LinearFilter;
+var cube = new THREE.Mesh(cubeGeometry, basicMaterial);
+scene.add(cube);
+var planeGeometry = new THREE.PlaneBufferGeometry(1, 1, 200, 200);
+var plane = new THREE.Mesh(planeGeometry, basicMaterial);
+plane.position.set(1.5, 0, 0);
+scene.add(plane); //给plane添加第二组uv
+
+planeGeometry.setAttribute("uv2", new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)); //添加物体
 //创建几何体
-
-var vertices = new Float32Array([-1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0]);
-
-for (var i = 0; i < 50; i++) {
-  var geometry = new THREE.BufferGeometry();
-  var positionArray = new Float32Array(9);
-
-  for (var j = 0; j < 9; j++) {
-    positionArray[j] = Math.random() * 10 - 5;
-  }
-
-  var color = new THREE.Color(Math.random(), Math.random(), Math.random());
-  geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
-  var material = new THREE.MeshBasicMaterial({
-    color: color,
-    transparent: true,
-    opacity: 0.5
-  });
-  var mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-} // //根据几何体和材质创建物体
+// const vertices = new Float32Array([
+//     -1.0, -1.0, 1.0, 
+//     1.0, -1.0, 1.0, 
+//     1.0, 1.0, 1.0,
+//     1.0,1.0,1.0,
+//     -1.0,1.0,1.0,
+//     -1.0,-1.0,1.0
+// ]);
+// for(let i = 0 ;i< 50;i++){
+//     const geometry = new THREE.BufferGeometry();
+//     const positionArray = new Float32Array(9);
+//     for (let j =0;j<9;j++){
+//         positionArray[j]  = Math.random() * 10 - 5
+//     }
+//     let color = new THREE.Color(Math.random(),Math.random(),Math.random())
+//     geometry.setAttribute('position',new THREE.BufferAttribute(positionArray, 3))
+//     const material = new THREE.MeshBasicMaterial({color: color,transparent:true,opacity:0.5})
+//     const mesh = new THREE.Mesh(geometry, material)
+//     scene.add(mesh)
+// }
+// //根据几何体和材质创建物体
 // const cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 // //修改物体的位置
 // // cube.position.set(5, 0, 0)
@@ -50362,7 +50428,6 @@ for (var i = 0; i < 50; i++) {
 // //设置点击按钮触发某个事件
 // folder.add(params,"fn").name("立方体运动")
 //初始化渲染器
-
 
 var renderer = new THREE.WebGLRenderer(); //设置渲染尺寸大小
 
@@ -50440,7 +50505,7 @@ window.addEventListener("resize", function () {
 
   renderer.setPixelRatio(window.devicePixelRatio);
 });
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","gsap":"../node_modules/gsap/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","gsap":"../node_modules/gsap/index.js","../assets/imgs/color.jpg":"assets/imgs/color.jpg","../assets/imgs/alpha.jpg":"assets/imgs/alpha.jpg","../assets/imgs/ambientOcclusion.jpg":"assets/imgs/ambientOcclusion.jpg","../assets/imgs/height.jpg":"assets/imgs/height.jpg","../assets/imgs/roughness.jpg":"assets/imgs/roughness.jpg","../assets/imgs/metalness.jpg":"assets/imgs/metalness.jpg","../assets/imgs/minecraft.png":"assets/imgs/minecraft.png"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -50468,7 +50533,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57569" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49269" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

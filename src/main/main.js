@@ -8,7 +8,7 @@ import * as dat from "dat.gui";
 
 //导入动画库
 import gsap from "gsap";
-import { Material } from "three";
+import { Material, Texture } from "three";
 
 //目标：掌握gsap,设置各种动画效果
 
@@ -27,30 +27,94 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
+// 导入纹理
+const textureLoader = new THREE.TextureLoader()
+const doorColorTexture = textureLoader.load(require("../assets/imgs/color.jpg"))
+const doorAplhaTexture = textureLoader.load(require('../assets/imgs/alpha.jpg'))
+const doorAoTexture = textureLoader.load(require('../assets/imgs/ambientOcclusion.jpg'))
+
+
+
+//导入置换贴图
+const doorHeightTexture = textureLoader.load(require('../assets/imgs/height.jpg'))
+
+//导入粗糙度贴图
+const roughnessTexture = textureLoader.load(require('../assets/imgs/roughness.jpg'))
+
+//导入金属贴图
+ const metalnessTexture = textureLoader.load(require('../assets/imgs/metalness.jpg'))
+
+const texture = textureLoader.load(require("../assets/imgs/minecraft.png"))
+//添加物体
+const cubeGeometry = new THREE.BoxBufferGeometry(1,1,1,100,100,100)
+//材质
+const basicMaterial = new THREE.MeshStandardMaterial({
+  color: "#ffff00",
+  map: doorColorTexture,
+  // map:texture,
+  alphaMap:doorAplhaTexture,
+  transparent:true,
+  aoMap:doorAoTexture,
+  aoMapIntensity:1,
+  // opacity: 0.6,
+  side:THREE.DoubleSide,
+  displacementMap: doorHeightTexture,
+  displacementScale:0.1,
+  roughness:1,
+  roughnessMap:roughnessTexture,
+  metalness:1,
+  metalnessMap:metalnessTexture
+})
+//给plane添加第二组uv
+cubeGeometry.setAttribute("uv2", new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2))
+
+//灯光
+const light = new THREE.AmbientLight(0xffffff,0.5)
+scene.add(light)
+const directionalLight = new THREE.DirectionalLight(0xffffff,0.5);
+directionalLight.position.set(0,10,10)
+scene.add(directionalLight)
+
+texture.minFilter = THREE.NearestFilter;
+texture.magFilter = THREE.NearestFilter;
+texture.minFilter = THREE.LinearFilter;
+texture.magFilter = THREE.LinearFilter;
+
+const cube = new THREE.Mesh(cubeGeometry,basicMaterial)
+scene.add(cube)
+
+const planeGeometry  = new THREE.PlaneBufferGeometry(1, 1, 200, 200)
+const plane = new THREE.Mesh( planeGeometry, basicMaterial)
+plane.position.set(1.5,0,0);
+scene.add(plane)
+
+//给plane添加第二组uv
+planeGeometry.setAttribute("uv2", new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2))
+
 //添加物体
 //创建几何体
 
-const vertices = new Float32Array([
-    -1.0, -1.0, 1.0, 
-    1.0, -1.0, 1.0, 
-    1.0, 1.0, 1.0,
-    1.0,1.0,1.0,
-    -1.0,1.0,1.0,
-    -1.0,-1.0,1.0
-]);
+// const vertices = new Float32Array([
+//     -1.0, -1.0, 1.0, 
+//     1.0, -1.0, 1.0, 
+//     1.0, 1.0, 1.0,
+//     1.0,1.0,1.0,
+//     -1.0,1.0,1.0,
+//     -1.0,-1.0,1.0
+// ]);
 
-for(let i = 0 ;i< 50;i++){
-    const geometry = new THREE.BufferGeometry();
-    const positionArray = new Float32Array(9);
-    for (let j =0;j<9;j++){
-        positionArray[j]  = Math.random() * 10 - 5
-    }
-    let color = new THREE.Color(Math.random(),Math.random(),Math.random())
-    geometry.setAttribute('position',new THREE.BufferAttribute(positionArray, 3))
-    const material = new THREE.MeshBasicMaterial({color: color,transparent:true,opacity:0.5})
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
-}
+// for(let i = 0 ;i< 50;i++){
+//     const geometry = new THREE.BufferGeometry();
+//     const positionArray = new Float32Array(9);
+//     for (let j =0;j<9;j++){
+//         positionArray[j]  = Math.random() * 10 - 5
+//     }
+//     let color = new THREE.Color(Math.random(),Math.random(),Math.random())
+//     geometry.setAttribute('position',new THREE.BufferAttribute(positionArray, 3))
+//     const material = new THREE.MeshBasicMaterial({color: color,transparent:true,opacity:0.5})
+//     const mesh = new THREE.Mesh(geometry, material)
+//     scene.add(mesh)
+// }
 
 // //根据几何体和材质创建物体
 // const cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
