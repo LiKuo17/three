@@ -1,25 +1,22 @@
 # 完结小demo效果图
-# city
+# threejs
 
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+npm run build
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+
 
 <img src="./src/assets/demo.png" alt="Image text" style="zoom:50%;" />
 <img src="./src/assets/demo1.png" alt="Image text" style="zoom:50%;" />
