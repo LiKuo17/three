@@ -50700,8 +50700,8 @@ var RGBELoader = /*#__PURE__*/function (_DataTextureLoader) {
 }(_three.DataTextureLoader);
 
 exports.RGBELoader = RGBELoader;
-},{"three":"../node_modules/three/build/three.module.js"}],"assets/hdr/004.hdr":[function(require,module,exports) {
-module.exports = "/004.ba93e111.hdr";
+},{"three":"../node_modules/three/build/three.module.js"}],"assets/hdr/002.hdr":[function(require,module,exports) {
+module.exports = "/002.c1c14efe.hdr";
 },{}],"assets/imgs/3/px.jpg":[function(require,module,exports) {
 module.exports = "/px.e2d5c563.jpg";
 },{}],"assets/imgs/3/nx.jpg":[function(require,module,exports) {
@@ -50739,7 +50739,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 //目标：掌握gsap,设置各种动画效果 
 //加载hdr环境图
 var rgbeLoader = new _RGBELoader.RGBELoader();
-rgbeLoader.loadAsync(require("../assets/hdr/004.hdr")).then(function (texture) {
+rgbeLoader.loadAsync(require("../assets/hdr/002.hdr")).then(function (texture) {
   texture.mapping = THREE.EquirectangularReflectionMapping;
   scene.background = texture;
   scene.environment = texture;
@@ -50997,7 +50997,7 @@ window.addEventListener("resize", function () {
 
   renderer.setPixelRatio(window.devicePixelRatio);
 });
-},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","gsap":"../node_modules/gsap/index.js","three/examples/jsm/loaders/RGBELoader":"../node_modules/three/examples/jsm/loaders/RGBELoader.js","../assets/hdr/004.hdr":"assets/hdr/004.hdr","../assets/imgs/3/px.jpg":"assets/imgs/3/px.jpg","../assets/imgs/3/nx.jpg":"assets/imgs/3/nx.jpg","../assets/imgs/3/py.jpg":"assets/imgs/3/py.jpg","../assets/imgs/3/ny.jpg":"assets/imgs/3/ny.jpg","../assets/imgs/3/pz.jpg":"assets/imgs/3/pz.jpg","../assets/imgs/3/nz.jpg":"assets/imgs/3/nz.jpg"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js","three/examples/jsm/controls/OrbitControls":"../node_modules/three/examples/jsm/controls/OrbitControls.js","dat.gui":"../node_modules/dat.gui/build/dat.gui.module.js","gsap":"../node_modules/gsap/index.js","three/examples/jsm/loaders/RGBELoader":"../node_modules/three/examples/jsm/loaders/RGBELoader.js","../assets/hdr/002.hdr":"assets/hdr/002.hdr","../assets/imgs/3/px.jpg":"assets/imgs/3/px.jpg","../assets/imgs/3/nx.jpg":"assets/imgs/3/nx.jpg","../assets/imgs/3/py.jpg":"assets/imgs/3/py.jpg","../assets/imgs/3/ny.jpg":"assets/imgs/3/ny.jpg","../assets/imgs/3/pz.jpg":"assets/imgs/3/pz.jpg","../assets/imgs/3/nz.jpg":"assets/imgs/3/nz.jpg"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
