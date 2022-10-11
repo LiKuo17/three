@@ -17,7 +17,7 @@ import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader"
 
 //加载hdr环境图
 const rgbeLoader = new RGBELoader();
-rgbeLoader.loadAsync(require("../assets/hdr/a4ley-cnbcr.hdr")).then((texture) => {
+rgbeLoader.loadAsync(require("../assets/hdr/004.hdr")).then((texture) => {
   texture.mapping = THREE.EquirectangularReflectionMapping
   scene.background = texture;
   scene.environment = texture
