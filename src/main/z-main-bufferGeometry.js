@@ -30,7 +30,7 @@ scene.add(camera);
 //添加物体
 //创建几何体
 const geometry = new THREE.BufferGeometry();
-const vertices = new Float32Array([
+const vertices = new Float32Array([ 
     -1.0, -1.0, 1.0, 
     1.0, -1.0, 1.0, 
     1.0, 1.0, 1.0,
